@@ -8,4 +8,4 @@ git clone https://github.com/prairie-guy/emacs_dotfile.git .emacs.d
 
 To use as a secondary emacs init file:
 git clone https://github.com/prairie-guy/emacs_dotfile.git .emacs_dotfile
-Add to .bashrc: alias em='/usr/local/bin/emacs -q -l ~/.emacs_dotfile/init.el'
+Update .bashrc to include: alias em='/usr/local/bin/emacs -q -l ~/.emacs_dotfile/init.el'
