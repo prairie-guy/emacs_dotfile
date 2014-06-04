@@ -147,7 +147,8 @@
 ;; -----------------------------------------
 ;; -- Projectile-global-mode configuration --
 ;; -----------------------------------------
-;;(require 'undo-tree)
+(require 'undo-tree)
+(global-undo-tree-mode)
 
 ;; -----------------------------------------
 ;; -- Projectile-global-mode configuration --
