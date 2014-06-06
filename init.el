@@ -1,6 +1,6 @@
 ;; ------------------------------------------
 ;; -- Allow for different startup directory  --
-;; -- Startup with: emacs -q -l some-file  
+;; -- Startup with: emacs -q -l some-file
 ;; ------------------------------------------
 
 (setq args command-line-args)
@@ -16,18 +16,15 @@
         (setq my-init-directory (file-name-directory init-file))
       (error "Error: when indicating a startup file with 'emacs -l' specify a directory in it's path, not just a filename.")))
 
-(message my-init-directory)
-
 (add-to-list 'load-path  my-init-directory)
-(add-to-list 'load-path  (concat my-init-directory "custom.d/")) 
-(setq package-user-dir (concat my-init-directory "elpa"))
+(add-to-list 'load-path  (concat my-init-directory "custom.d/"))
+(setq package-user-dir (concat my-init-directory "elpa/"))
 
 ;; ---------------------
 ;; -- Package Settings --
 ;; ---------------------
 
 (require 'package)
-
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
@@ -37,13 +34,29 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(better-defaults
-		      paredit paredit-everywhere
-                      idle-highlight-mode find-file-in-project smex ido-ubiquitous magit
-                      dash auto-complete rainbow-delimiters ace-jump-mode projectile 
+(defvar my-packages '(ace-jump-mode
+                      auto-complete
+                      better-defaults
+                      dash
+                      find-file-in-project
+                      idle-highlight-mode
+                      ido-ubiquitous
+                      magit
+                      paredit
+                      paredit-everywhere
+                      rainbow-delimiters
+                      projectile
+                      smex
                       ;; From Balaji S. Srinivasan, Standford
-                      jade-mode sws-mode stylus-mode
-                      cl ffap ansi-color recentf whitespace smooth-scrolling column-marker
+                      ansi-color
+                      cl
+                      column-marker
+                      ffap
+                      jade-mode
+                      stylus-mode
+                      smooth-scrolling
+                      sws-mode
+                      whitespace
                       ;; From CBD
                       undo-tree
                       )
@@ -52,6 +65,11 @@
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
+
+
+;;;; I AM WORKING ON THIS!!!
+ ;; (dolist (p my-packages)
+ ;;   (require p))
 
 ;; From Balaji S. Srinivasan, Standford
 (require 'uniquify)
@@ -75,6 +93,7 @@
 ;(normal-erase-is-backspace-mode 1)
 (global-set-key "\M-?" 'help)
 (global-set-key "\M-\/" 'help-command)
+
 
 ;; ------------
 ;; -- General Macros --
@@ -104,7 +123,6 @@
 ;;(require 'jade-mode)
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
-
 
 ;; ---------------------------
 ;; -- Paredit configuration --
@@ -141,8 +159,15 @@
 ;; -- Rainbow-delimiters-mode configuration --
 ;; -----------------------------------------
 
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+;; -----------------------------------------
+;; -- color-theme configuration --
+;; -----------------------------------------
+
+(load-theme 'tsdh-dark t)
+
+(global-rainbow-delimiters-mode)
+;(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+;(remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 
 ;; -----------------------------------------
 ;; -- Projectile-global-mode configuration --
@@ -228,12 +253,12 @@ your recently and most frequently used commands.")
 ;; -- Custom Variable configuration --
 ;; -----------------------------------------
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values (quote ((epa-file-encrypt-to arthur@ulfeldt\.com) (whitespace-line-column . 80) (lexical-binding . t)))))
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(safe-local-variable-values (quote ((epa-file-encrypt-to arthur@ulfeldt\.com) (whitespace-line-column . 80) (lexical-binding . t)))))
 
 
 ;; (custom-set-faces
@@ -243,21 +268,21 @@ your recently and most frequently used commands.")
 ;;  ;; If there is more than one, they won't work right.
 ;;  '(default ((t (:inherit nil :stipple nil :background "color-234" :foreground "unspecified-fg" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 1 :width normal :foundry "default" :family "default")))))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit autoface-default :strike-through nil :underline nil :slant normal :weight normal :height 120 :width normal :family "monaco"))))
- '(column-marker-1 ((t (:background "red"))))
- '(diff-added ((t (:foreground "cyan"))))
- '(flymake-errline ((((class color) (background light)) (:background "Red"))))
- '(font-lock-comment-face ((((class color) (min-colors 8) (background light)) (:foreground "red"))))
- '(fundamental-mode-default ((t (:inherit default))))
- '(highlight ((((class color) (min-colors 8)) (:background "white" :foreground "magenta"))))
- '(isearch ((((class color) (min-colors 8)) (:background "yellow" :foreground "black"))))
- '(linum ((t (:foreground "black" :weight bold))))
- '(region ((((class color) (min-colors 8)) (:background "white" :foreground "magenta"))))
- '(secondary-selection ((((class color) (min-colors 8)) (:background "gray" :foreground "cyan"))))
- '(show-paren-match ((((class color) (background light)) (:background "black"))))
- '(vertical-border ((t nil))))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(default ((t (:inherit autoface-default :strike-through nil :underline nil :slant normal :weight normal :height 120 :width normal :family "monaco"))))
+;;  '(column-marker-1 ((t (:background "red"))))
+;;  '(diff-added ((t (:foreground "cyan"))))
+;;  '(flymake-errline ((((class color) (background light)) (:background "Red"))))
+;;  '(font-lock-comment-face ((((class color) (min-colors 8) (background light)) (:foreground "red"))))
+;;  '(fundamental-mode-default ((t (:inherit default))))
+;;  '(highlight ((((class color) (min-colors 8)) (:background "white" :foreground "magenta"))))
+;;  '(isearch ((((class color) (min-colors 8)) (:background "yellow" :foreground "black"))))
+;;  '(linum ((t (:foreground "black" :weight bold))))
+;;  '(region ((((class color) (min-colors 8)) (:background "white" :foreground "magenta"))))
+;;  '(secondary-selection ((((class color) (min-colors 8)) (:background "gray" :foreground "cyan"))))
+;;  '(show-paren-match ((((class color) (background light)) (:background "black"))))
+;;  '(vertical-border ((t nil))))
