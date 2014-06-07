@@ -58,7 +58,6 @@
                       sws-mode
                       whitespace
                       ;; From CBD
-                      js2-mode
                       undo-tree
                       )
   "A list of packages to ensure are installed at launch.")
@@ -66,11 +65,6 @@
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-
-
-;;;; I AM WORKING ON THIS!!!
- ;; (dolist (p my-packages)
- ;;   (require p))
 
 ;; From Balaji S. Srinivasan, Standford
 (require 'uniquify)
@@ -164,7 +158,7 @@
 ;; -- color-theme configuration --
 ;; -----------------------------------------
 
-(load-theme 'tsdh-dark t)
+(load-theme 'tsdh-light t)
 
 (global-rainbow-delimiters-mode)
 ;(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
