@@ -58,6 +58,7 @@
                       sws-mode
                       whitespace
                       ;; From CBD
+                      js2-mode
                       undo-tree
                       )
   "A list of packages to ensure are installed at launch.")
