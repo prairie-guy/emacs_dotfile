@@ -59,6 +59,7 @@
                       whitespace
                       ;; From CBD
                       undo-tree
+                      
                       )
   "A list of packages to ensure are installed at launch.")
 

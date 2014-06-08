@@ -22,7 +22,7 @@
 (setq compilation-error-regexp-alist
       (cons 'jshint-cli compilation-error-regexp-alist))
 
-(add-hook 'js-mode-hook '(lambda ()
+(add-hook 'js3-mode-hook '(lambda ()
                            (local-set-key "\C-x\C-e" 'eval-last-sexp)
                            (local-set-key "\C-cb" 'js-send-buffer)
                            (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
