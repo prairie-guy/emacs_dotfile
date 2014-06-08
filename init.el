@@ -59,7 +59,7 @@
                       whitespace
                       ;; From CBD
                       undo-tree
-                      
+                      js3-mode
                       )
   "A list of packages to ensure are installed at launch.")
 
