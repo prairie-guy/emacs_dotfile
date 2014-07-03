@@ -20,6 +20,7 @@
 (add-to-list 'load-path  (concat my-init-directory "custom.d/"))
 (setq package-user-dir (concat my-init-directory "elpa/"))
 
+
 ;; ---------------------
 ;; -- Package Settings --
 ;; ---------------------
@@ -42,8 +43,8 @@
                       idle-highlight-mode
                       ido-ubiquitous
                       magit
-                      paredit
-                      paredit-everywhere
+;                      paredit
+;                      paredit-everywhere
                       rainbow-delimiters
                       projectile
                       smex
@@ -60,6 +61,7 @@
                       ;; From CBD
                       undo-tree
                       js3-mode
+                      smartparens
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -71,6 +73,8 @@
 (require 'uniquify)
 (require 'dired-x)
 (require 'compile)
+
+
 
 ;; ---------------------
 ;; -- Global Settings --
@@ -89,7 +93,7 @@
 ;(normal-erase-is-backspace-mode 1)
 (global-set-key "\M-?" 'help)
 (global-set-key "\M-\/" 'help-command)
-
+(mouse-wheel-mode t)
 
 ;; ------------
 ;; -- General Macros --
@@ -110,27 +114,63 @@
 (global-set-key "\M-u" 'zap-to-char)
 
 
+;; -------------------------------------------
+;; -- Ess Mode Configuration (R and Julia)---
+;; -------------------------------------------
+;; Ess is not part of package management system, so need to run 'setup.sh' in order to install ess.d.
+(add-to-list 'load-path  (concat my-init-directory "ess.d/lisp"))
+(load "ess-site")
+;;(require 'ess-eldoc)
+(setq-default inferior-R-args "--no-restore-history --no-save ")
+(setq ess-default-style 'RRR)
+(setq ess-tab-complete-in-script t)                 ;; Autocomplete in .R files M-tab
+(setq ess-first-tab-never-complete t)
+(setq ess-eldoc-show-on-symbol t)
+(setq ess-eldoc-abbreviation-style 'strong)
+
+(defun jack-into-R()
+  (interactive)
+  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
+      (progn
+        (delete-other-windows)
+        (setq w1 (selected-window))
+        (setq w1name (buffer-name))
+        (setq w2 (split-window w1 nil t))
+        (R)
+;;        (set-window-buffer w1 "*R*")    ; R on the left
+;;        (set-window-buffer w2 w1name))))
+        (set-window-buffer w2 "*R*")
+        (set-window-buffer w1 w1name))))
+
 ;; ---------------------------
 ;; -- JS Mode configuration --
 ;; ---------------------------
 (load "js-config.el")
-;;(add-to-list 'load-path "~/.emacs.d/jade-mode") ;; github.com/brianc/jade-mode
-;;(require 'sws-mode)
-;;(require 'jade-mode)
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
+
+;; ---------------------------
+;; -- smartparens configuration --
+;; ---------------------------
+(require 'smartparens-config)
+(smartparens-global-strict-mode)
+(show-smartparens-global-mode)
+;;(add-hook 'inferior-ess-mode-hook 'smartparens-strict-mode)
+;;(add-hook 'ess-mode-hook 'smartparens-strict-mode)
 
 ;; ---------------------------
 ;; -- Paredit configuration --
 ;; ---------------------------
 
-(require 'paredit)
-(define-key paredit-mode-map (kbd "C-M-]") 'paredit-forward-barf-sexp)
-(define-key paredit-mode-map (kbd "C-M-[") 'paredit-backward-barf-sexp)
-(define-key paredit-mode-map (kbd "M-]") 'paredit-forward-slurp-sexp)
-(define-key paredit-mode-map (kbd "M-[") 'paredit-backward-slurp-sexp)
-(require 'paredit-everywhere)
-(add-hook 'prog-mode-hook 'paredit-everywhere-mode)
+;; (add-hook 'ess-mode-hook 'paredit-mode)
+;; (add-hook 'inferior-ess-mode-hook 'paredit-mode)
+;; (add-hook 'prog-mode-hook 'paredit-everywhere-mode)
+;; (define-key paredit-mode-map (kbd "C-M-]") 'paredit-forward-barf-sexp)
+;; (define-key paredit-mode-map (kbd "C-M-[") 'paredit-backward-barf-sexp)
+;; (define-key paredit-mode-map (kbd "M-]") 'paredit-forward-slurp-sexp)
+;; (define-key paredit-mode-map (kbd "M-[") 'paredit-backward-slurp-sexp)
+;; (require 'paredit-everywhere)
+
 
 ;; Always show matching parens
 (show-paren-mode 1)
@@ -150,23 +190,22 @@
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
-
 ;; -----------------------------------------
 ;; -- Rainbow-delimiters-mode configuration --
 ;; -----------------------------------------
 
-;; -----------------------------------------
-;; -- color-theme configuration --
-;; -----------------------------------------
-
-(load-theme 'tsdh-light t)
-
 (global-rainbow-delimiters-mode)
 ;(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;(remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+;; -----------------------------------------
+
+;; -- color-theme configuration --
+;; -----------------------------------------
+
+;;(load-theme 'tsdh-light t)
 
 ;; -----------------------------------------
-;; -- Projectile-global-mode configuration --
+;; -- Undo-tree--mode configuration --
 ;; -----------------------------------------
 (require 'undo-tree)
 (global-undo-tree-mode)
@@ -186,23 +225,6 @@
 your recently and most frequently used commands.")
 
 (global-set-key (kbd "M-x") 'smex)
-
-
-;; -----------------------------------------
-;; -- Clipboard configuration --
-;; -----------------------------------------
-
-(setq x-select-enable-clipboard t)
-(defun yank-to-x-clipboard ()
-  (interactive)
-  (if (region-active-p)
-        (progn
-          (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
-          (message "Yanked region to clipboard!")
-          (deactivate-mark))
-    (message "No region active; can't yank to clipboard!")))
-
-(define-key global-map (kbd "M-W") 'yank-to-x-clipboard)
 
 
 ;; -----------------------------------------
@@ -282,3 +304,6 @@ your recently and most frequently used commands.")
  '(secondary-selection ((((class color) (min-colors 8)) (:background "gray" :foreground "cyan"))))
  '(show-paren-match ((((class color) (background light)) (:background "black"))))
  '(vertical-border ((t nil))))
+
+
+(message "Let's get started...")
