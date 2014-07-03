@@ -35,19 +35,7 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(ace-jump-mode
-                      auto-complete
-                      better-defaults
-                      dash
-                      find-file-in-project
-                      idle-highlight-mode
-                      ido-ubiquitous
-                      magit
-;                      paredit
-;                      paredit-everywhere
-                      rainbow-delimiters
-                      projectile
-                      smex
+(defvar my-packages '(
                       ;; From Balaji S. Srinivasan, Standford
                       ansi-color
                       cl
@@ -58,6 +46,20 @@
                       smooth-scrolling
                       sws-mode
                       whitespace
+                      ;; From emacs-live
+                      ace-jump-mode
+                      auto-complete
+                      better-defaults
+                      dash
+                      find-file-in-project
+                      idle-highlight-mode
+                      ido-ubiquitous
+                      magit
+                      paredit
+                      paredit-everywhere
+                      rainbow-delimiters
+                      projectile
+                      smex
                       ;; From CBD
                       undo-tree
                       js3-mode
@@ -73,8 +75,6 @@
 (require 'uniquify)
 (require 'dired-x)
 (require 'compile)
-
-
 
 ;; ---------------------
 ;; -- Global Settings --
@@ -128,7 +128,7 @@
 (setq ess-eldoc-show-on-symbol t)
 (setq ess-eldoc-abbreviation-style 'strong)
 
-(defun jack-into-R()
+(defun run-R()
   (interactive)
   (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
       (progn
@@ -149,19 +149,38 @@
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 
+
+;; ---------------------------
+;; -- Octave Mode configuration --
+;; ---------------------------
+(setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
+(add-hook 'octave-mode-hook
+          (lambda ()
+            ;; Help mode interfers with global C-h binding
+            (local-unset-key "\C-h" )
+            (local-set-key "\C-c\C-b" 'octave-send-buffer)
+            (abbrev-mode 1)
+            (auto-fill-mode 1)
+            (if (eq window-system 'x)
+                (font-lock-mode 1))))
+
+(add-hook 'inferior-octave-mode-hook
+          (lambda ()
+            ;; Help mode interfers with global C-h binding
+            (local-unset-key "\C-h" )))
+
 ;; ---------------------------
 ;; -- smartparens configuration --
 ;; ---------------------------
 (require 'smartparens-config)
 (smartparens-global-strict-mode)
 (show-smartparens-global-mode)
-;;(add-hook 'inferior-ess-mode-hook 'smartparens-strict-mode)
-;;(add-hook 'ess-mode-hook 'smartparens-strict-mode)
 
 ;; ---------------------------
 ;; -- Paredit configuration --
 ;; ---------------------------
 
+;; (require 'paredit-everywhere)
 ;; (add-hook 'ess-mode-hook 'paredit-mode)
 ;; (add-hook 'inferior-ess-mode-hook 'paredit-mode)
 ;; (add-hook 'prog-mode-hook 'paredit-everywhere-mode)
@@ -169,8 +188,6 @@
 ;; (define-key paredit-mode-map (kbd "C-M-[") 'paredit-backward-barf-sexp)
 ;; (define-key paredit-mode-map (kbd "M-]") 'paredit-forward-slurp-sexp)
 ;; (define-key paredit-mode-map (kbd "M-[") 'paredit-backward-slurp-sexp)
-;; (require 'paredit-everywhere)
-
 
 ;; Always show matching parens
 (show-paren-mode 1)
