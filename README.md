@@ -1,6 +1,6 @@
 # emacs_dotfile
 
-My personal emacs configuration, installed to coexist with multiple emacs configurations, in my case live-emacs
+My personal emacs configuration, tuned for my needs. One of which is to be able to use multiple emacs configurations. On such alternative is 'emacs-live', which I want to be able to isolate from my main emacs configuration.
 
 ### To use this as the default emacs init file:
 * git clone https://github.com/prairie-guy/emacs_dotfile.git .emacs.d
