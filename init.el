@@ -98,6 +98,10 @@
 ;; ------------
 ;; -- General Macros --
 ;; ------------
+
+(setq ns-alternate-modifier 'meta) ;set Mac's Fn key to Hyper 
+(setq ns-command-modifier 'super) ;set Mac's Fn key to Hyper  ;; Not working on OSx 10.9 , but reminder to find a fix  
+                                        
 (load "defuns-config.el")
 (fset 'align-equals "\C-[xalign-regex\C-m=\C-m")
 (global-set-key "\M-=" 'align-equals)
@@ -142,6 +146,21 @@
         (set-window-buffer w2 "*R*")
         (set-window-buffer w1 w1name))))
 
+(setq inferior-julia-program-name "/usr/local/bin/julia")
+(defun run-julia()
+  (interactive)
+  (if (not (member "*julia*" (mapcar (function buffer-name) (buffer-list))))
+      (progn
+        (delete-other-windows)
+        (setq w1 (selected-window))
+        (setq w1name (buffer-name))
+        (setq w2 (split-window w1 nil t))
+        (julia)
+        (set-window-buffer w2 "*julia*")
+        (set-window-buffer w1 w1name))))
+ 
+
+
 ;; ---------------------------
 ;; -- JS Mode configuration --
 ;; ---------------------------
@@ -159,6 +178,8 @@
             ;; Help mode interfers with global C-h binding
             (local-unset-key "\C-h" )
             (local-set-key "\C-c\C-b" 'octave-send-buffer)
+            (local-set-key "\C-c\C-r" 'octave-send-region)
+            (local-set-key "\C-ch"   'octave-help)
             (abbrev-mode 1)
             (auto-fill-mode 1)
             (if (eq window-system 'x)
@@ -167,7 +188,8 @@
 (add-hook 'inferior-octave-mode-hook
           (lambda ()
             ;; Help mode interfers with global C-h binding
-            (local-unset-key "\C-h" )))
+            (local-unset-key "\C-h" )
+            (local-set-key "\C-ch"   'octave-help)))
 
 ;; ---------------------------
 ;; -- smartparens configuration --
