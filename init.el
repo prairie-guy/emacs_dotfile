@@ -48,23 +48,33 @@
                       whitespace
                       ;; From emacs-live
                       ace-jump-mode
-                      auto-complete
                       better-defaults
                       dash
                       find-file-in-project
                       idle-highlight-mode
-                      ido-ubiquitous
                       magit
-                      paredit
-                      paredit-everywhere
-                      rainbow-delimiters
                       projectile
                       smex
                       ;; From CBD
+                      ido-ubiquitous
+                      ido-ubiquitous
+                      flx-ido
+                      ;; auto-complet and company-mode are choices: Though both are loaded, only one should configured.
+                      auto-complete
+                      company-mode
                       undo-tree
-                      js3-mode
+                      ;; smartparens and paredit are choices: Though both are loaded, only one should configured.
                       smartparens
+                      paredit
+                      paredit-everywhere
+                      rainbow-delimiters
                       arduino-mode
+                      ;; Javascript
+                      js3-mode
+                      ;; Clojure be sure to include the following in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
+                      cider
+
+
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -100,9 +110,9 @@
 ;; -- General Macros --
 ;; ------------
 
-(setq ns-alternate-modifier 'meta) ;set Mac's Fn key to Hyper 
-(setq ns-command-modifier 'super) ;set Mac's Fn key to Hyper  ;; Not working on OSx 10.9 , but reminder to find a fix  
-                                        
+(setq ns-alternate-modifier 'meta) ;set Mac's Fn key to Hyper
+(setq ns-command-modifier 'super) ;set Mac's Fn key to Hyper  ;; Not working on OSx 10.9 , but reminder to find a fix
+
 (load "defuns-config.el")
 (fset 'align-equals "\C-[xalign-regex\C-m=\C-m")
 (global-set-key "\M-=" 'align-equals)
@@ -159,7 +169,15 @@
         (julia)
         (set-window-buffer w2 "*julia*")
         (set-window-buffer w1 w1name))))
- 
+
+
+;; -------------------------------------------
+;; -- Clojure(cider) Mode Configuration    ---
+;; -------------------------------------------
+
+(add-hook 'cider-mode-hook #'eldoc-mode)      ;; Enable eldoc in Clojure buffers
+(setq nrepl-hide-special-buffers t)           ;; Hide the *nrepl-connection* and *nrepl-server* buffers from appearing in some buffer switching commands
+(setq cider-show-error-buffer 'only-in-repl)
 
 
 ;; ---------------------------
@@ -191,6 +209,12 @@
             ;; Help mode interfers with global C-h binding
             (local-unset-key "\C-h" )
             (local-set-key "\C-ch"   'octave-help)))
+
+
+;; ---------------------------
+;; -- company configuration --
+;; ---------------------------
+(global-company-mode)
 
 ;; ---------------------------
 ;; -- smartparens configuration --
@@ -234,10 +258,10 @@
 ;; -- Rainbow-delimiters-mode configuration --
 ;; -----------------------------------------
 
-;;NOT SURE WHY 'global-rainbow-delimiters' IS NOT WORKING!!!
-;(global-rainbow-delimiters-mode) 
-;(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-;(remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+;; NOT SURE WHY 'global-rainbow-delimiters' IS NOT WORKING!!!
+;; (global-rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 ;; -----------------------------------------
 
 ;; -- color-theme configuration --
