@@ -39,9 +39,7 @@
                       ;; From Balaji S. Srinivasan, Standford
                       ansi-color
                       cl
-                      column-marker
                       ffap
-                      jade-mode
                       stylus-mode
                       smooth-scrolling
                       sws-mode
@@ -56,6 +54,8 @@
                       projectile
                       smex
                       ;; From CBD
+                      ;; help and ido are choices: Though both are loaded, only one should configured.
+                      helm
                       ido-ubiquitous
                       ido-ubiquitous
                       flx-ido
@@ -69,12 +69,12 @@
                       smartparens
                       rainbow-delimiters
                       arduino-mode
-                      ;; Javascript
+                      ;; Javascript/HTML
+                      jade-mode
                       js3-mode
+                      nodejs-repl
                       ;; Clojure be sure to include the following in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
                       cider
-
-
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -91,7 +91,6 @@
 ;; -- Global Settings --
 ;; ---------------------
 
-(ido-mode t)
 (menu-bar-mode -1)
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
@@ -177,7 +176,8 @@
 
 (add-hook 'cider-mode-hook #'eldoc-mode)      ;; Enable eldoc in Clojure buffers
 (setq nrepl-hide-special-buffers t)           ;; Hide the *nrepl-connection* and *nrepl-server* buffers from appearing in some buffer switching commands
-(setq cider-show-error-buffer 'only-in-repl)
+(setq cider-show-error-buffer nil)
+;(setq cider-show-error-buffer 'only-in-repl)
 
 
 ;; ---------------------------
@@ -186,6 +186,7 @@
 (load "js-config.el")
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
 
 
 ;; ---------------------------
@@ -211,10 +212,43 @@
             (local-set-key "\C-ch"   'octave-help)))
 
 
+
+;; ---------------------------
+;; -- ido configuration --
+;; ---------------------------
+;(ido-mode t)
+
+;; ---------------------------
+;; -- helm configuration --
+;; ---------------------------
+;;
+
+The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+Changed to "C-c h". Note: We must set "C-c h" globally, because we
+cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)   ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action)              ; list actions using C-z
+
+(when (executable-find "curl")
+  (setq helm-google-suggest-use-curl-p t))
+
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t)
+
+(helm-mode 1)
+
+
 ;; ---------------------------
 ;; -- company configuration --
 ;; ---------------------------
 (global-company-mode)
+
 
 ;; ---------------------------
 ;; -- smartparens configuration --
@@ -222,6 +256,7 @@
 (require 'smartparens-config)
 (smartparens-global-strict-mode)
 (show-smartparens-global-mode)
+
 
 ;; ---------------------------
 ;; -- Paredit configuration --
