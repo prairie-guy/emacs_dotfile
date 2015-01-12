@@ -233,7 +233,8 @@
 ;; -- Rainbow-delimiters-mode configuration --
 ;; -----------------------------------------
 
-(global-rainbow-delimiters-mode)
+;;NOT SURE WHY 'global-rainbow-delimiters' IS NOT WORKING!!!
+;(global-rainbow-delimiters-mode) 
 ;(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;(remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 ;; -----------------------------------------

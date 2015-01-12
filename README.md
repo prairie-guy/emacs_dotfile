@@ -30,3 +30,7 @@ My personal emacs configuration, tuned for my needs. One of which is to be able 
 * git add README.md
 * git commit -m "Changed something in README.me"
 * git push
+
+### Get the most current version of emacs for OSX with brew:
+* brew install emacs --HEAD --use-git-head --cocoa --with-gnutls
+
