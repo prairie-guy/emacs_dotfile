@@ -3,16 +3,18 @@
 My personal emacs configuration, tuned for my needs. One of which is to be able to use multiple emacs configurations. On such alternative is 'emacs-live', which I want to be able to isolate from my main emacs configuration.
 
 ### To use this as the default emacs init file:
-* git clone https://github.com/prairie-guy/emacs_dotfile.git .emacs.d
+* git clone git@github.com:prairie-guy/emacs_dotfile.git .emacs.d
 
 ### To use as a secondary emacs init file:
  * git clone git@github.com:prairie-guy/emacs_dotfile.git .emacs_dotfile
  * Update .bashrc to include: alias em='/usr/local/bin/emacs -q -l ~/.emacs_dotfile/init.el'
+ * Run setup.sh to configure emacs with Ess, which is not part of the package libraries. It adds functionality for both R and Julia.
+ 
  * Alternatively:
   * cp emacs_basic.sh ~/bin/.
   * Update .bashrc to include alias em='/Users/cdaniels/bin/emacs_basic.sh'
+* Run setup.sh to configure emacs with Ess, which is not part of the package libraries. It adds functionality for both R and Julia.
 
-### Run setup.sh to configure emacs with Ess, which is not part of the package libraries. It adds functionality for both R and Julia.
 
 ### My Current Emacs Configuration on Sodium:
 * .emacs_dotfile/
