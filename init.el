@@ -59,14 +59,14 @@
                       ido-ubiquitous
                       ido-ubiquitous
                       flx-ido
-                      ;; auto-complet and company-mode are choices: Though both are loaded, only one should configured.
+                      ;; auto-complete and company are choices: Though both are loaded, only one should configured.
                       auto-complete
-                      company-mode
+                      company
                       undo-tree
                       ;; smartparens and paredit are choices: Though both are loaded, only one should configured.
-                      smartparens
                       paredit
                       paredit-everywhere
+                      smartparens
                       rainbow-delimiters
                       arduino-mode
                       ;; Javascript
