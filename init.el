@@ -64,6 +64,7 @@
                       undo-tree
                       js3-mode
                       smartparens
+                      arduino-mode
                       )
   "A list of packages to ensure are installed at launch.")
 
