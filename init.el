@@ -216,10 +216,10 @@
 ;; ---------------------------
 ;; -- ido configuration --
 ;; ---------------------------
-;(ido-mode t)
+(ido-mode t)
 
 ;; ---------------------------
-;; -- helm configuration --
+;; -- helm configuration --     NOT WORKING
 ;; ---------------------------
 ;;
 
@@ -242,9 +242,9 @@
 ;;       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
 ;;       helm-ff-file-name-history-use-recentf t)
 
-(require 'helm)
-(require 'helm-config)
-(helm-mode 1)
+;; (require 'helm)
+;; (require 'helm-config)
+;; (helm-mode 1)
 
 
 ;; ---------------------------
