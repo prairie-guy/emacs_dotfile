@@ -55,7 +55,6 @@
                       ;; help and ido are choices: Though both are loaded, only one should configured.
                       helm
                       ido-ubiquitous
-                      ido-ubiquitous
                       flx-ido
                       ;; auto-complete and company are choices: Though both are loaded, only one should configured.
                       auto-complete
@@ -220,6 +219,8 @@
 ;; -- ido configuration --
 ;; ---------------------------
 (ido-mode t)
+(ido-ubiquitous-mode t)
+
 
 ;; ---------------------------
 ;; -- helm configuration --     NOT WORKING
@@ -254,6 +255,10 @@
 ;; -- company configuration --
 ;; ---------------------------
 (global-company-mode)
+(define-key company-active-map (kbd "\C-n") 'company-select-next)
+(define-key company-active-map (kbd "\C-p") 'company-select-previous)
+(define-key company-active-map (kbd "\C-d") 'company-show-doc-buffer)
+(define-key company-active-map (kbd "<tab>") 'company-complete)
 
 
 ;; ---------------------------
