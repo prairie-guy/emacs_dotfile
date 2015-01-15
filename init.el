@@ -106,6 +106,7 @@
 (global-set-key "\M-?" 'help)
 (global-set-key "\M-\/" 'help-command)
 (mouse-wheel-mode t)
+(global-hl-line-mode t)
 
 ;; ------------
 ;; -- General Macros --
