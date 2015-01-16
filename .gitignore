@@ -8,3 +8,4 @@ swank/**
 .smex-items
 .emacs.d/elpa/**
 ess.d/**
+projectile-bookmarks.eld
