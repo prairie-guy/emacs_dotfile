@@ -134,89 +134,6 @@
 (global-set-key "\M-u" 'zap-to-char)
 
 
-;; -------------------------------------------
-;; -- Ess Mode Configuration (R and Julia)---
-;; -------------------------------------------
-;; Ess is not part of package management system, so need to run 'setup.sh' in order to install ess.d.
-(add-to-list 'load-path  (concat my-init-directory "ess.d/lisp"))
-(load "ess-site")
-;;(require 'ess-eldoc)
-(setq-default inferior-R-args "--no-restore-history --no-save ")
-(setq ess-default-style 'RRR)
-(setq ess-tab-complete-in-script t)                 ;; Autocomplete in .R files M-tab
-(setq ess-first-tab-never-complete t)
-(setq ess-eldoc-show-on-symbol t)
-(setq ess-eldoc-abbreviation-style 'strong)
-
-(defun run-R()
-  (interactive)
-  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
-      (progn
-        (delete-other-windows)
-        (setq w1 (selected-window))
-        (setq w1name (buffer-name))
-        (setq w2 (split-window w1 nil t))
-        (R)
-;;        (set-window-buffer w1 "*R*")    ; R on the left
-;;        (set-window-buffer w2 w1name))))
-        (set-window-buffer w2 "*R*")
-        (set-window-buffer w1 w1name))))
-
-(setq inferior-julia-program-name "/usr/local/bin/julia")
-(defun run-julia()
-  (interactive)
-  (if (not (member "*julia*" (mapcar (function buffer-name) (buffer-list))))
-      (progn
-        (delete-other-windows)
-        (setq w1 (selected-window))
-        (setq w1name (buffer-name))
-        (setq w2 (split-window w1 nil t))
-        (julia)
-        (set-window-buffer w2 "*julia*")
-        (set-window-buffer w1 w1name))))
-
-
-;; -------------------------------------------
-;; -- Clojure(cider) Mode Configuration    ---
-;; -------------------------------------------
-
-(add-hook 'cider-mode-hook #'eldoc-mode)      ;; Enable eldoc in Clojure buffers
-(setq nrepl-hide-special-buffers t)           ;; Hide the *nrepl-connection* and *nrepl-server* buffers from appearing in some buffer switching commands
-(setq cider-show-error-buffer nil)
-;(setq cider-show-error-buffer 'only-in-repl)
-
-
-;; ---------------------------
-;; -- JS Mode configuration --
-;; ---------------------------
-(load "js-config.el")
-(add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
-(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
-(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
-
-
-;; ---------------------------
-;; -- Octave Mode configuration --
-;; ---------------------------
-(setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
-(add-hook 'octave-mode-hook
-          (lambda ()
-            ;; Help mode interfers with global C-h binding
-            (local-unset-key "\C-h" )
-            (local-set-key "\C-c\C-b" 'octave-send-buffer)
-            (local-set-key "\C-c\C-r" 'octave-send-region)
-            (local-set-key "\C-ch"   'octave-help)
-            (abbrev-mode 1)
-            (auto-fill-mode 1)
-            (if (eq window-system 'x)
-                (font-lock-mode 1))))
-
-(add-hook 'inferior-octave-mode-hook
-          (lambda ()
-            ;; Help mode interfers with global C-h binding
-            (local-unset-key "\C-h" )
-            (local-set-key "\C-ch"   'octave-help)))
-
 
 
 ;; ---------------------------
@@ -227,7 +144,7 @@
 
 
 ;; ---------------------------
-;; -- helm configuration --     NOT WORKING
+;; -- helm configuration -- 
 ;; ---------------------------
 ;;
 
@@ -235,26 +152,10 @@
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 
-;; (global-set-key (kbd "C-c h") 'helm-command-prefix)
-;; (global-unset-key (kbd "C-x c"))
-;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)   ; make TAB works in terminal
-;; (define-key helm-map (kbd "C-z")  'helm-select-action)              ; list actions using C-z
-
-;; (when (executable-find "curl")
-;;   (setq helm-google-suggest-use-curl-p t))
-
-;; (setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-;;       helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-;;       helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-;;       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-;;       helm-ff-file-name-history-use-recentf t)
-
-;; (require 'helm)
 ;; (require 'helm-config)
 ;; (helm-mode 1)
 
-
+                                        ;
 ;; ---------------------------
 ;; -- company configuration --
 ;; ---------------------------
@@ -392,5 +293,90 @@ your recently and most frequently used commands.")
 ;;atom-dark-theme
 (load-theme 'ample-zen t)
 (enable-theme 'ample-zen)
+
+
+;; -------------------------------------------
+;; -- Ess Mode Configuration (R and Julia)---
+;; -------------------------------------------
+;; Ess is not part of package management system, so need to run 'setup.sh' in order to install ess.d.
+(add-to-list 'load-path  (concat my-init-directory "ess.d/lisp"))
+(load "ess-site")
+;;(require 'ess-eldoc)
+(setq-default inferior-R-args "--no-restore-history --no-save ")
+(setq ess-default-style 'RRR)
+(setq ess-tab-complete-in-script t)                 ;; Autocomplete in .R files M-tab
+(setq ess-first-tab-never-complete t)
+(setq ess-eldoc-show-on-symbol t)
+(setq ess-eldoc-abbreviation-style 'strong)
+
+(defun run-R()
+  (interactive)
+  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
+      (progn
+        (delete-other-windows)
+        (setq w1 (selected-window))
+        (setq w1name (buffer-name))
+        (setq w2 (split-window w1 nil t))
+        (R)
+;;        (set-window-buffer w1 "*R*")    ; R on the left
+;;        (set-window-buffer w2 w1name))))
+        (set-window-buffer w2 "*R*")
+        (set-window-buffer w1 w1name))))
+
+(setq inferior-julia-program-name "/usr/local/bin/julia")
+(defun run-julia()
+  (interactive)
+  (if (not (member "*julia*" (mapcar (function buffer-name) (buffer-list))))
+      (progn
+        (delete-other-windows)
+        (setq w1 (selected-window))
+        (setq w1name (buffer-name))
+        (setq w2 (split-window w1 nil t))
+        (julia)
+        (set-window-buffer w2 "*julia*")
+        (set-window-buffer w1 w1name))))
+
+
+;; -------------------------------------------
+;; -- Clojure(cider) Mode Configuration    ---
+;; -------------------------------------------
+
+(add-hook 'cider-mode-hook #'eldoc-mode)      ;; Enable eldoc in Clojure buffers
+(setq nrepl-hide-special-buffers t)           ;; Hide the *nrepl-connection* and *nrepl-server* buffers from appearing in some buffer switching commands
+(setq cider-show-error-buffer nil)
+;(setq cider-show-error-buffer 'only-in-repl)
+
+
+;; ---------------------------
+;; -- JS Mode configuration --
+;; ---------------------------
+(load "js-config.el")
+(add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
+(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+
+
+;; ---------------------------
+;; -- Octave Mode configuration --
+;; ---------------------------
+(setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
+(add-hook 'octave-mode-hook
+          (lambda ()
+            ;; Help mode interfers with global C-h binding
+            (local-unset-key "\C-h" )
+            (local-set-key "\C-c\C-b" 'octave-send-buffer)
+            (local-set-key "\C-c\C-r" 'octave-send-region)
+            (local-set-key "\C-ch"   'octave-help)
+            (abbrev-mode 1)
+            (auto-fill-mode 1)
+            (if (eq window-system 'x)
+                (font-lock-mode 1))))
+
+(add-hook 'inferior-octave-mode-hook
+          (lambda ()
+            ;; Help mode interfers with global C-h binding
+            (local-unset-key "\C-h" )
+            (local-set-key "\C-ch"   'octave-help)))
+
 
 (message "Let's get started...")
