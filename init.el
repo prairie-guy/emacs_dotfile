@@ -68,7 +68,6 @@
                       paredit-everywhere
                       smartparens
                       rainbow-delimiters
-                      arduino-mode
                       ;; Javascript/HTML
                       jade-mode
                       sws-mode
@@ -76,6 +75,7 @@
                       nodejs-repl
                       ;; Clojure be sure to include the following in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
                       cider
+                      arduino-mode
                       ;; Several themes
                       ample-zen-theme
                       ample-theme
@@ -134,8 +134,6 @@
 (global-set-key "\M-u" 'zap-to-char)
 
 
-
-
 ;; ---------------------------
 ;; -- ido configuration --
 ;; ---------------------------
@@ -147,15 +145,13 @@
 ;; -- helm configuration -- 
 ;; ---------------------------
 ;;
-
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
-
+;;
 ;; (require 'helm-config)
 ;; (helm-mode 1)
 
-                                        ;
 ;; ---------------------------
 ;; -- company configuration --
 ;; ---------------------------
@@ -208,17 +204,10 @@
 ;; -----------------------------------------
 ;; -- Rainbow-delimiters-mode configuration --
 ;; -----------------------------------------
-
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 ;; NOT SURE WHY 'global-rainbow-delimiters' IS NOT WORKING!!!
 ;; (global-rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
-;; -----------------------------------------
 
-;; -- color-theme configuration --
-;; -----------------------------------------
-
-;;(load-theme 'tsdh-light t)
 
 ;; -----------------------------------------
 ;; -- Undo-tree--mode configuration --
@@ -229,13 +218,11 @@
 ;; -----------------------------------------
 ;; -- Projectile-global-mode configuration --
 ;; -----------------------------------------
-
 (projectile-global-mode)
 
 ;; -----------------------------------------
 ;; -- Smex configuration --
 ;; -----------------------------------------
-
 (autoload 'smex "smex"
     "Smex is a M-x enhancement for Emacs, it provides a convenient interface to
 your recently and most frequently used commands.")
@@ -246,7 +233,6 @@ your recently and most frequently used commands.")
 ;; -----------------------------------------
 ;; -- Clipboard configuration --
 ;; -----------------------------------------
-
 (setq x-select-enable-clipboard t)
 (defun yank-to-x-clipboard ()
   (interactive)
