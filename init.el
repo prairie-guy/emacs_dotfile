@@ -8,7 +8,8 @@
 (setq init-file nil)
 
 (while args
-  (if (string-equal "-l" (car args)) (setq init-file (car (cdr args))))
+  (if (string-equal "-l" (car args))
+      (setq init-file (car (cdr args))))
   (pop args))
 
 (if init-file
@@ -16,7 +17,9 @@
         (setq my-init-directory (file-name-directory init-file))
       (error "Error: when indicating a startup file with 'emacs -l' specify a directory in it's path, not just a filename.")))
 
-(add-to-list 'load-path  my-init-directory)
+(if (not (string-equal my-init-directory "~/.emacs.d/" ))
+    (add-to-list 'load-path  my-init-directory))
+
 (add-to-list 'load-path  (concat my-init-directory "custom.d/"))
 (setq package-user-dir (concat my-init-directory "elpa/"))
 
