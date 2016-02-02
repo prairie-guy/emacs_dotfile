@@ -76,6 +76,8 @@
                       ;; Clojure be sure to include the following in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
                       cider
                       arduino-mode
+                      ;; Pixie
+                      pixie-mode
                       ;; Several themes
                       ample-zen-theme
                       ample-theme
@@ -326,12 +328,16 @@ your recently and most frequently used commands.")
 ;; -------------------------------------------
 ;; -- Clojure(cider) Mode Configuration    ---
 ;; -------------------------------------------
-
 (add-hook 'cider-mode-hook #'eldoc-mode)      ;; Enable eldoc in Clojure buffers
 (setq nrepl-hide-special-buffers t)           ;; Hide the *nrepl-connection* and *nrepl-server* buffers from appearing in some buffer switching commands
 (setq cider-show-error-buffer nil)
 ;(setq cider-show-error-buffer 'only-in-repl)
 
+
+;; -------------------------------------------
+;; -- Clojure(cider) Mode Configuration    ---
+;; -------------------------------------------
+(add-hook 'pixie-mode-hook #'inf-clojure-minor-mode)
 
 ;; ---------------------------
 ;; -- JS Mode configuration --
