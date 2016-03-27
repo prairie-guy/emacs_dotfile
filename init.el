@@ -59,6 +59,7 @@
                       helm
                       ido-ubiquitous
                       flx-ido
+                      use-package
                       ;; auto-complete and company are choices: Though both are loaded, only one should configured.
                       auto-complete
                       company
@@ -76,6 +77,7 @@
                       ;; Clojure be sure to include the following in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
                       cider
                       arduino-mode
+                      aggressive-indent
                       ;; Pixie
                       pixie-mode
                       ;; Several themes
@@ -167,36 +169,76 @@
 ;; ---------------------------
 ;; -- smartparens configuration --
 ;; ---------------------------
-(require 'smartparens-config)
+;;(require 'smartparens-config)
 (smartparens-global-strict-mode)
 (show-smartparens-global-mode)
+(add-hook 'minibuffer-setup-hook 'smartparens-strict-mode)
+(add-hook 'clojure-mode-hook #'smartparens-strict-mode)
+(add-hook 'ess-mode-hook 'smartparens-strict-mode)
+(add-hook 'inferior-ess-mode-hook 'smartparens-strict-mode)
+(add-hook 'prog-mode-hook 'smartparens-strict-mode)
+
+(defmacro def-pairs (pairs)
+  `(progn
+     ,@(cl-loop for (key . val) in pairs
+                collect
+                `(defun ,(read (concat
+                                "wrap-with-"
+                                (prin1-to-string key)
+                                "s"))
+                     (&optional arg)
+                   (interactive "p")
+                   (sp-wrap-with-pair ,val)))))
+
+(def-pairs ((paren        . "(")
+            (bracket      . "[")
+            (brace        . "{")
+            (single-quote . "'")
+            (double-quote . "\"")
+            (back-quote   . "`")))
+
+(bind-keys
+ :map smartparens-mode-map
+ ("M-A" . sp-beginning-of-sexp)
+ ("M-E" . sp-end-of-sexp)
+ ("M-N" . sp-next-sexp)
+ ("M-P" . sp-previous-sexp)
+ ("M-F" . sp-forward-sexp)
+ ("M-B" . sp-backward-sexp)
+
+ ("ESC <right>" . sp-forward-slurp-sexp) ;; Same as M-shift <right>
+ ("ESC <left>"  . sp-forward-barf-sexp)  ;; Same as M-shift <left>
+ ("M-f"  . sp-backward-slurp-sexp)       ;; Same as M-<right>
+ ("M-b"  . sp-backward-barf-sexp);; Same as M-<right>
+
+ ("C-c ("  . wrap-with-parens)
+ ("C-c ["  . wrap-with-brackets)
+ ("C-c {"  . wrap-with-braces)
+ ("C-c '"  . wrap-with-single-quotes)
+ ("C-c \"" . wrap-with-double-quotes)
+ ("C-c _"  . wrap-with-underscores)
+ ("C-c `"  . wrap-with-back-quotes)
+
+ ("M-[ " . sp-backward-unwrap-sexp)
+ ("M-]"  . sp-unwrap-sexp)
+
+ ("C-M-w" . sp-copy-sexp)
+ ("C-M-k" . sp-kill-sexp)
+ ("C-k"   . sp-kill-hybrid-sexp)
+ ("M-k"   . sp-backward-kill-sexp)
+
+ ("M-<backspace>" . backward-kill-word)
+ ("C-<backspace>" . sp-backward-kill-word)
+ ([remap sp-backward-kill-word] . backward-kill-word)
+
+ ;; Not tested
+ ;; ("M-S-<down>" . sp-down-sexp)
+ ;; ("M-S-<up>"   . sp-up-sexp)
+ ;; ("M-<down>" . sp-backward-down-sexp)
+ ;; ("M-<up>"   . sp-backward-up-sexp)
+ )
 
 
-;; ---------------------------
-;; -- Paredit configuration --
-;; ---------------------------
-
-;; (require 'paredit-everywhere)
-;; (add-hook 'ess-mode-hook 'paredit-mode)
-;; (add-hook 'inferior-ess-mode-hook 'paredit-mode)
-;; (add-hook 'prog-mode-hook 'paredit-everywhere-mode)
-;; (define-key paredit-mode-map (kbd "C-M-]") 'paredit-forward-barf-sexp)
-;; (define-key paredit-mode-map (kbd "C-M-[") 'paredit-backward-barf-sexp)
-;; (define-key paredit-mode-map (kbd "M-]") 'paredit-forward-slurp-sexp)
-;; (define-key paredit-mode-map (kbd "M-[") 'paredit-backward-slurp-sexp)
-
-;; Always show matching parens
-(show-paren-mode 1)
-
-;; ---------------------------
-;; -- Ace Jump configuration --
-;; ---------------------------
-
-(autoload
-  'ace-jump-mode-pop-mark
-  "ace-jump-mode"
-  "Ace jump back:-)"
-  t)
 
 (eval-after-load "ace-jump-mode"
   '(ace-jump-mode-enable-mark-sync))
@@ -331,12 +373,15 @@ your recently and most frequently used commands.")
 (add-hook 'cider-mode-hook #'eldoc-mode)      ;; Enable eldoc in Clojure buffers
 (setq nrepl-hide-special-buffers t)           ;; Hide the *nrepl-connection* and *nrepl-server* buffers from appearing in some buffer switching commands
 (setq cider-show-error-buffer nil)
-;(setq cider-show-error-buffer 'only-in-repl)
+;;(setq cider-show-error-buffer 'only-in-repl)
+
 
 
 ;; -------------------------------------------
-;; -- Clojure(cider) Mode Configuration    ---
+;; -- Clojure (Other) Mode Configuration    ---
 ;; -------------------------------------------
+(require 'aggressive-indent)
+(global-aggressive-indent-mode 1)
 (add-hook 'pixie-mode-hook #'inf-clojure-minor-mode)
 
 ;; ---------------------------
@@ -372,3 +417,17 @@ your recently and most frequently used commands.")
 
 
 (message "Let's get started...")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (use-package aggressive-indent smartparens cider undo-tree stylus-mode smooth-scrolling smex rainbow-delimiters projectile pixie-mode paredit-everywhere nodejs-repl magit js3-mode jade-mode ido-ubiquitous idle-highlight-mode helm flx-ido find-file-in-project company better-defaults auto-complete atom-dark-theme arduino-mode ample-zen-theme ample-theme))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
