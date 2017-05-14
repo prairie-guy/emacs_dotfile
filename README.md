@@ -4,6 +4,8 @@ My personal emacs configuration, tuned for my needs. One of which is to be able 
 
 ### To use this as the default emacs init file:
 * git clone git@github.com:prairie-guy/emacs_dotfile.git .emacs.d
+* Run ./setup.sh to configure emacs with Ess, which is not part of the package libraries. It adds functionality for both R and Julia.
+* On a OSx, uncomment pbpaste and pbcopy. These commmand don't work on Ubuntu.
 
 ### To use as a secondary emacs init file:
  * git clone git@github.com:prairie-guy/emacs_dotfile.git .emacs_dotfile
@@ -11,10 +13,9 @@ My personal emacs configuration, tuned for my needs. One of which is to be able 
  * Run setup.sh to configure emacs with Ess, which is not part of the package libraries. It adds functionality for both R and Julia.
  
  * Alternatively:
-  * cp emacs_basic.sh ~/bin/.
+ * cp emacs_basic.sh ~/bin/.
   * Update .bashrc to include alias em='/Users/cdaniels/bin/emacs_basic.sh'
 * Run setup.sh to configure emacs with Ess, which is not part of the package libraries. It adds functionality for both R and Julia.
-
 
 ### My Current Emacs Configuration on Sodium:
 * .emacs_dotfile/

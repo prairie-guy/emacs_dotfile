@@ -9,3 +9,4 @@ swank/**
 .emacs.d/elpa/**
 ess.d/**
 projectile-bookmarks.eld
+network-security.data

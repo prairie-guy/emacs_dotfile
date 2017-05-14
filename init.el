@@ -424,7 +424,7 @@ your recently and most frequently used commands.")
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (use-package aggressive-indent smartparens cider undo-tree stylus-mode smooth-scrolling smex rainbow-delimiters projectile pixie-mode paredit-everywhere nodejs-repl magit js3-mode jade-mode ido-ubiquitous idle-highlight-mode helm flx-ido find-file-in-project company better-defaults auto-complete atom-dark-theme arduino-mode ample-zen-theme ample-theme))))
+    (json-mode use-package aggressive-indent smartparens cider undo-tree stylus-mode smooth-scrolling smex rainbow-delimiters projectile pixie-mode paredit-everywhere nodejs-repl magit js3-mode jade-mode ido-ubiquitous idle-highlight-mode helm flx-ido find-file-in-project company better-defaults auto-complete atom-dark-theme arduino-mode ample-zen-theme ample-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
