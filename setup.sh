@@ -7,8 +7,8 @@
 
 if [ ! -d "ess.d" ]; then
     git clone https://github.com/emacs-ess/ESS.git ess.d
-    cd ess.d
-    make
+    #cd ess.d
+    #make
 else
     echo ess.d has been previously installed;
  fi
