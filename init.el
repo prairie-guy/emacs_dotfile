@@ -78,8 +78,8 @@
                       cider
                       arduino-mode
                       aggressive-indent
-                      ;; Pixie
-                      pixie-mode
+                      ;; Julia
+                      julia-mode
                       ;; Several themes
                       ample-zen-theme
                       ample-theme
@@ -290,15 +290,15 @@ your recently and most frequently used commands.")
 (define-key global-map (kbd "M-W") 'yank-to-x-clipboard)
 
 ;; Allow C-y to be used to copy and paste from OS X
-(defun copy-from-osx ()
-    (shell-command-to-string "pbpaste"))
-(defun paste-to-osx (text &optional push)
-  (let ((process-connection-type nil))
-    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-      (process-send-string proc text)
-      (process-send-eof proc))))
-(setq interprogram-cut-function 'paste-to-osx)
-(setq interprogram-paste-function 'copy-from-osx)
+;;(defun copy-from-osx ()
+;;    (shell-command-to-string "pbpaste"))
+;;(defun paste-to-osx (text &optional push)
+;;  (let ((process-connection-type nil))
+;;    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+;;      (process-send-string proc text)
+;;      (process-send-eof proc))))
+;;(setq interprogram-cut-function 'paste-to-osx)
+;;(setq interprogram-paste-function 'copy-from-osx)
 
 
 ;; -----------------------------------------
