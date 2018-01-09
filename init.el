@@ -353,7 +353,7 @@ your recently and most frequently used commands.")
         (set-window-buffer w2 "*R*")
         (set-window-buffer w1 w1name))))
 
-(setq inferior-julia-program-name "/usr/local/bin/julia")
+;;(setq inferior-julia-program-name "/usr/local/bin/julia")
 (defun run-julia()
   (interactive)
   (if (not (member "*julia*" (mapcar (function buffer-name) (buffer-list))))
