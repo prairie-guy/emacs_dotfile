@@ -3,6 +3,10 @@
 ;; -- Startup with: emacs -q -l some-file
 ;; ------------------------------------------
 
+;; PLEASE REVIEW IF CLOJURE OR JULIA ARE NOT WORKING
+;; CBD:: comment/uncomment (load "ess-site") in order to speed up when not using clojure or julia
+;; Search for CBD
+
 (setq args command-line-args)
 (setq my-init-directory user-emacs-directory)
 (setq init-file nil)
@@ -330,7 +334,11 @@ your recently and most frequently used commands.")
 ;; -------------------------------------------
 ;; Ess is not part of package management system, so need to run 'setup.sh' in order to install ess.d.
 (add-to-list 'load-path  (concat my-init-directory "ess.d/lisp"))
+
+;; CBD comment/uncomment (load "ess-site") in order to speed up when not using clojure or julia
 (load "ess-site")
+
+;; OK TO LEAVE COMMENTED
 ;;(require 'ess-eldoc)
 (setq-default inferior-R-args "--no-restore-history --no-save ")
 (setq ess-default-style 'RRR)
