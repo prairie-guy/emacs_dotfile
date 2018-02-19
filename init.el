@@ -80,8 +80,7 @@
                       nodejs-repl
                       ;; Clojure be sure to include the following in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
                       cider
-                      arduino-mode
-                      aggressive-indent
+		      aggressive-indent
                       ;; Julia
                       julia-mode
                       ;; Several themes
@@ -414,24 +413,24 @@ your recently and most frequently used commands.")
 ;; ---------------------------
 ;; -- Octave Mode configuration --
 ;; ---------------------------
-(setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
-(add-hook 'octave-mode-hook
-          (lambda ()
-            ;; Help mode interfers with global C-h binding
-            (local-unset-key "\C-h" )
-            (local-set-key "\C-c\C-b" 'octave-send-buffer)
-            (local-set-key "\C-c\C-r" 'octave-send-region)
-            (local-set-key "\C-ch"   'octave-help)
-            (abbrev-mode 1)
-            (auto-fill-mode 1)
-            (if (eq window-system 'x)
-                (font-lock-mode 1))))
-
-(add-hook 'inferior-octave-mode-hook
-          (lambda ()
-            ;; Help mode interfers with global C-h binding
-            (local-unset-key "\C-h" )
-            (local-set-key "\C-ch"   'octave-help)))
+;; (setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
+;; (add-hook 'octave-mode-hook
+;;           (lambda ()
+;;             ;; Help mode interfers with global C-h binding
+;;             (local-unset-key "\C-h" )
+;;             (local-set-key "\C-c\C-b" 'octave-send-buffer)
+;;             (local-set-key "\C-c\C-r" 'octave-send-region)
+;;             (local-set-key "\C-ch"   'octave-help)
+;;             (abbrev-mode 1)
+;;             (auto-fill-mode 1)
+;;             (if (eq window-system 'x)
+;;                 (font-lock-mode 1))))
+;;
+;; (add-hook 'inferior-octave-mode-hook
+;;           (lambda ()
+;;             ;; Help mode interfers with global C-h binding
+;;             (local-unset-key "\C-h" )
+;;             (local-set-key "\C-ch"   'octave-help)))
 
 
 (message "Let's get started...")
