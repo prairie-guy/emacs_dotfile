@@ -88,6 +88,8 @@
                       ample-zen-theme
                       ample-theme
                       atom-dark-theme
+		      ;; Python
+		      elpy
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -392,13 +394,21 @@ your recently and most frequently used commands.")
 (global-aggressive-indent-mode 1)
 (add-hook 'pixie-mode-hook #'inf-clojure-minor-mode)
 
-;; ---------------------------
-;; -- JS Mode configuration --
-;; ---------------------------
 (load "js-config.el")
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+
+
+
+;; Python
+;; ---------------------------
+;; -- Python configuration --
+;; ---------------------------
+(elpy-enable)
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
+
 
 
 ;; ---------------------------
@@ -439,3 +449,4 @@ your recently and most frequently used commands.")
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
