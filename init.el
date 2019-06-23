@@ -61,7 +61,8 @@
                       ;; From CBD
                       ;; help and ido are choices: Though both are loaded, only one should configured.
                       helm
-                      ido-ubiquitous
+                      ;;ido-ubiquitous
+                      ido
                       flx-ido
                       use-package
                       ;; auto-complete and company are choices: Though both are loaded, only one should configured.
@@ -147,7 +148,7 @@
 ;; -- ido configuration --
 ;; ---------------------------
 (ido-mode t)
-(ido-ubiquitous-mode t)
+;;(ido-ubiquitous-mode t)
 
 
 ;; ---------------------------
