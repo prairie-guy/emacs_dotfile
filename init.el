@@ -45,34 +45,22 @@
 ;; Add in your own as you wish:
 (defvar my-packages '(
 		      ansi-color
-		      smooth-scrolling         ;; Provide smooth scrolling
-                      whitespace               ;; Toggles on whitespace
+		      smooth-scrolling       ; Provide smooth scrolling
+                      whitespace             ;Toggles on whitespace
 		      magit
-		      smex
 		      use-package
-		      ;; helm and ido are choices: Both are loaded. Only one should configured.
-                      helm
-		      flx-ido
+		      helm
 		      company
                       undo-tree
 		      smartparens
                       rainbow-delimiters
-                      ;; Javascript/HTML
-                      jade-mode
-                      sws-mode
-                      js3-mode
-                      nodejs-repl
-                      ;; clojure be sure to include the following in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
-                      cider
+		      cider                  ; clojure be sure to include the following in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
 		      aggressive-indent
-                      ;; Julia
-                      julia-mode
-                      ;; Several themes
-                      ample-zen-theme
+		      julia-mode             ; Julia
+		      ample-zen-theme        ; Several themes
                       ample-theme
                       atom-dark-theme
-		      ;; Python
-		      elpy
+		      elpy                   ; Python
                       )
   "A list of packages to ensure are installed at launch.")
 
@@ -84,28 +72,16 @@
 ;; ---------------------
 ;; -- Global Settings --
 ;; ---------------------
-
-;;(put 'downcase-region 'disabled nil)
-;;(put 'upcase-region 'disabled nil)
-;;(setq save-abbrevs nil)
-;;(setq show-trailing-whitespace t)
-;;(setq suggest-key-bindings t)
-;;(setq vc-follow-symlinks t)
-;;(normal-erase-is-backspace-mode 1)
-;;(global-set-key "\M-\/" 'help-command)
-;;(mouse-wheel-mode t)
-;;(global-hl-line-mode t)
-(menu-bar-mode -1) ; Disable menu bar at top of screen
+(menu-bar-mode -1)                           ; Disable menu bar at top of screen
 (setq column-number-mode t)
 (setq inhibit-startup-message t)
-(setq ns-alternate-modifier 'meta);set Mac's Fn key to Hyper
-(setq ns-command-modifier 'super);set Mac's Fn key to Hyper  ;; Not working on OSx 10.9 , but reminder to find a fix
+(setq ns-alternate-modifier 'meta)           ; Set Mac's Fn key to Hyper
+(setq ns-command-modifier 'super)            ; Set Mac's Fn key to Hyper  ;; Not working on OSx 10.9 , but reminder to find a fix
 
 ;; --------------------------
 ;; -- Global Key Bindings  --
 ;; --------------------------
 
-;;(global-set-key "\C-x\C-m" 'execute-extended-command)
 (load "defuns-config.el")
 (fset 'align-equals "\C-[xalign-regex\C-m=\C-m")
 (global-set-key "\M-?" 'help)                          ; Help-Key
@@ -141,20 +117,13 @@
 (smooth-scrolling-mode t)
 
 ;; ---------------------------
-;; -- ido configuration --
-;; ---------------------------
-;; (ido-mode t)
-;; (setq ido-everywhere t)
-;; (setq ido-enable-flex-matching t)
-
-;; ---------------------------
 ;; -- helm configuration -- 
 ;; ---------------------------
 (require 'helm)
 (require 'helm-config)
 (helm-mode t)
 (global-set-key (kbd "C-c h") 'helm-command-prefix)                ; Helm-command (Changed to "C-c h"); "C-c h i" opens i-menu. VERY USEFUL
-(global-set-key (kbd "M-x") 'helm-M-x)                             ; Choose this or "M-x" for 'smex. NOT BOTH
+(global-set-key (kbd "M-x") 'helm-M-x)                             ; Alternative binding for "M-x"
 (global-unset-key (kbd "C-x c"))                                   ; Cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action); Rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)  ; Make TAB work in terminal
@@ -209,16 +178,6 @@
 ;; -----------------------------------------
 (require 'undo-tree)
 (global-undo-tree-mode)
-
-;; -----------------------------------------
-;; -- Smex configuration --
-;; -----------------------------------------
-(autoload 'smex "smex"
-  "Smex is a M-x enhancement for Emacs, it provides a convenient interface to
-your recently and most frequently used commands.")
-;; Choose this or "M-x" for 'helm
-;; (global-set-key (kbd "M-x") 'smex)
-
 
 ;; -----------------------------------------
 ;; -- Misc configuration --
@@ -296,18 +255,11 @@ your recently and most frequently used commands.")
 (setq cider-show-error-buffer nil)
 ;;(setq cider-show-error-buffer 'only-in-repl)
 
-
 ;; -------------------------------------------
 ;; -- Clojure (Other) Mode Configuration    ---
 ;; -------------------------------------------
 (require 'aggressive-indent)
 (global-aggressive-indent-mode 1)
-
-(load "js-config.el")
-(add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
-(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
-(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
-
 
 ;; Python
 ;; ---------------------------
