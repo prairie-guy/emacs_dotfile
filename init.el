@@ -1,4 +1,3 @@
-
 ;; ------------------------------------------
 ;; -- Allow for different startup directory  --
 ;; -- Startup with: emacs -q -l some-file
@@ -148,6 +147,7 @@
 (helm-mode t)
 ;; Choose this or "M-x" for 'smex
 (global-set-key (kbd "M-x") 'helm-M-x)
+(setq helm-M-x-fuzzy-match t)		; optional fuzzy matching for helm-M-x
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
@@ -156,6 +156,15 @@
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+
+(global-set-key (kbd "C-x b") 'helm-mini) ; Helm version of searching buffer
+(setq helm-buffers-fuzzy-matching t
+      helm-recentf-fuzzy-match    t)
+
+(global-set-key (kbd "C-x C-f") 'helm-find-files) ; file navigation
+
 
 (when (executable-find "curl")
   (setq helm-google-suggest-use-curl-p t))
@@ -322,7 +331,6 @@ your recently and most frequently used commands.")
 ;; -------------------------------------------
 (require 'aggressive-indent)
 (global-aggressive-indent-mode 1)
-(add-hook 'pixie-mode-hook #'inf-clojure-minor-mode)
 
 (load "js-config.el")
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
@@ -338,22 +346,4 @@ your recently and most frequently used commands.")
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
 
-
 (message "Let's get started...")
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
-
- '(package-selected-packages
-   (quote
-    (counsel-dash json-mode use-package aggressive-indent smartparens cider undo-tree stylus-mode smooth-scrolling smex rainbow-delimiters projectile pixie-mode paredit-everywhere nodejs-repl magit js3-mode jade-mode ido-ubiquitous idle-highlight-mode helm flx-ido find-file-in-project company better-defaults auto-complete atom-dark-theme arduino-mode ample-zen-theme ample-theme))))
-(custom-set-faces
- 
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
