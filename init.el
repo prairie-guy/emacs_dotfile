@@ -78,11 +78,26 @@
 (setq ns-alternate-modifier 'meta)           ; Set Mac's Fn key to Hyper
 (setq ns-command-modifier 'super)            ; Set Mac's Fn key to Hyper  ;; Not working on OSx 10.9 , but reminder to find a fix
 
+
+(defvar real-keyboard-keys
+  '(("M-<up>"        . "\M-[1;3A")
+    ("M-<down>"      . "\M-[1;3B")
+    ("M-<right>"     . "\M-[1;3C")
+    ("M-<left>"      . "\M-[1;3D")
+    ("C-<return>"    . "\C-j")
+    ("C-<delete>"    . "\M-[3;5~")
+    ("C-<up>"        . "\M-[1;5A")
+    ("C-<down>"      . "\M-[1;5B")
+    ("C-<right>"     . "\M-[1;5C")
+    ("C-<left>"      . "\M-[1;5D"))
+  "An assoc list of pretty key strings
+and their terminal equivalents.")
+
+
 ;; --------------------------
 ;; -- Global Key Bindings  --
 ;; --------------------------
 
-(load "defuns-config.el")
 (fset 'align-equals "\C-[xalign-regex\C-m=\C-m")
 (global-set-key "\M-?" 'help)                          ; Help-Key
 (global-set-key "\M-=" 'align-equals)                  ; Aligment-Key
