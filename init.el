@@ -1,8 +1,8 @@
+
 ;; ------------------------------------------
 ;; -- Allow for different startup directory  --
 ;; -- Startup with: emacs -q -l some-file
 ;; ------------------------------------------
-
 ;; PLEASE REVIEW IF CLOJURE OR JULIA ARE NOT WORKING
 ;; CBD:: comment/uncomment (load "ess-site") in order to speed up when not using clojure or julia
 ;; Search for CBD
@@ -43,34 +43,20 @@
 
 ;; Add in your own as you wish:
 (defvar my-packages '(
-                      ;; From Balaji S. Srinivasan, Standford
-                      ansi-color
-                      cl
-                      ffap
-                      stylus-mode
-                      smooth-scrolling
-                      whitespace
+		      ansi-color
+		      smooth-scrolling         ;; Provide smooth scrolling
+                      whitespace               ;; Toggles on whitespace
                       ;; From emacs-live
-                      better-defaults
-                      dash
-                      find-file-in-project
-                      idle-highlight-mode
-                      magit
-                      projectile
-                      smex
+		      magit
+		      smex
+		      use-package
                       ;; From CBD
-                      ;; help and ido are choices: Though both are loaded, only one should configured.
+                      ;; helm and ido are choices: Though both are loaded, only one should configured.
                       helm
 		      flx-ido
-                      use-package
-                      ;; auto-complete and company are choices: Though both are loaded, only one should configured.
-                      auto-complete
-                      company
+		      company
                       undo-tree
-                      ;; smartparens and paredit are choices: Though both are loaded, only one should configured.
-                      paredit
-                      paredit-everywhere
-                      smartparens
+		      smartparens
                       rainbow-delimiters
                       ;; Javascript/HTML
                       jade-mode
@@ -113,9 +99,9 @@
 (setq show-trailing-whitespace t)
 (setq suggest-key-bindings t)
 (setq vc-follow-symlinks t)
-;(normal-erase-is-backspace-mode 1)
+;;(normal-erase-is-backspace-mode 1)
 (global-set-key "\M-?" 'help)
-(global-set-key "\M-\/" 'help-command)
+;;(global-set-key "\M-\/" 'help-command)
 ;;(mouse-wheel-mode t)
 (global-hl-line-mode t)
 
@@ -143,6 +129,11 @@
 
 
 ;; ---------------------------
+;; -- smooth-scrolling --
+;; ---------------------------
+(smooth-scrolling-mode t)
+
+;; ---------------------------
 ;; -- ido configuration --
 ;; ---------------------------
 ;; (ido-mode t)
@@ -152,16 +143,32 @@
 ;; ---------------------------
 ;; -- helm configuration -- 
 ;; ---------------------------
-;;
+(require 'helm)
+(require 'helm-config)
+(helm-mode t)
+;; Choose this or "M-x" for 'smex
+(global-set-key (kbd "M-x") 'helm-M-x)
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
-(require 'helm-config)
-(helm-mode t)
-(global-set-key (kbd "M-x") 'helm-M-x)
-;; Choose this or "M-x" for 'smex
+(when (executable-find "curl")
+  (setq helm-google-suggest-use-curl-p t))
 
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t
+      helm-echo-input-in-header-line t)
+(setq helm-autoresize-max-height 0)
+(setq helm-autoresize-min-height 20)
+(helm-autoresize-mode 1)
 
 ;; ---------------------------
 ;; -- company configuration --
@@ -176,100 +183,22 @@
 ;; ---------------------------
 ;; -- smartparens configuration --
 ;; ---------------------------
-;;(require 'smartparens-config)
+
+;; New/simpler/default configuration
+(require 'smartparens-config)
 (smartparens-global-strict-mode)
 (show-smartparens-global-mode)
-(add-hook 'minibuffer-setup-hook 'smartparens-strict-mode)
-(add-hook 'clojure-mode-hook #'smartparens-strict-mode)
-(add-hook 'ess-mode-hook 'smartparens-strict-mode)
-(add-hook 'inferior-ess-mode-hook 'smartparens-strict-mode)
-(add-hook 'prog-mode-hook 'smartparens-strict-mode)
-
-(defmacro def-pairs (pairs)
-  `(progn
-     ,@(cl-loop for (key . val) in pairs
-                collect
-                `(defun ,(read (concat
-                                "wrap-with-"
-                                (prin1-to-string key)
-                                "s"))
-                     (&optional arg)
-                   (interactive "p")
-                   (sp-wrap-with-pair ,val)))))
-
-(def-pairs ((paren        . "(")
-            (bracket      . "[")
-            (brace        . "{")
-            (single-quote . "'")
-            (double-quote . "\"")
-            (back-quote   . "`")))
-
-(bind-keys
- :map smartparens-mode-map
- ("M-A" . sp-beginning-of-sexp)
- ("M-E" . sp-end-of-sexp)
- ("M-N" . sp-next-sexp)
- ("M-P" . sp-previous-sexp)
- ("M-F" . sp-forward-sexp)
- ("M-B" . sp-backward-sexp)
-
- ("ESC <right>" . sp-forward-slurp-sexp) ;; Same as M-shift <right>
- ("ESC <left>"  . sp-forward-barf-sexp)  ;; Same as M-shift <left>
- ("M-f"  . sp-backward-slurp-sexp)       ;; Same as M-<right>
- ("M-b"  . sp-backward-barf-sexp);; Same as M-<right>
-
- ("C-c ("  . wrap-with-parens)
- ("C-c ["  . wrap-with-brackets)
- ("C-c {"  . wrap-with-braces)
- ("C-c '"  . wrap-with-single-quotes)
- ("C-c \"" . wrap-with-double-quotes)
- ("C-c _"  . wrap-with-underscores)
- ("C-c `"  . wrap-with-back-quotes)
-
- ("M-[ " . sp-backward-unwrap-sexp)
- ("M-]"  . sp-unwrap-sexp)
-
- ("C-M-w" . sp-copy-sexp)
- ("C-M-k" . sp-kill-sexp)
- ("C-k"   . sp-kill-hybrid-sexp)
- ("M-k"   . sp-backward-kill-sexp)
-
- ("M-<backspace>" . backward-kill-word)
- ("C-<backspace>" . sp-backward-kill-word)
- ([remap sp-backward-kill-word] . backward-kill-word)
-
- ;; Not tested
- ;; ("M-S-<down>" . sp-down-sexp)
- ;; ("M-S-<up>"   . sp-up-sexp)
- ;; ("M-<down>" . sp-backward-down-sexp)
- ;; ("M-<up>"   . sp-backward-up-sexp)
- )
-
-
-
-(eval-after-load "ace-jump-mode"
-  '(ace-jump-mode-enable-mark-sync))
-(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 ;; -----------------------------------------
 ;; -- Rainbow-delimiters-mode configuration --
 ;; -----------------------------------------
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-;; NOT SURE WHY 'global-rainbow-delimiters' IS NOT WORKING!!!
-;; (global-rainbow-delimiters-mode)
-
 
 ;; -----------------------------------------
 ;; -- Undo-tree--mode configuration --
 ;; -----------------------------------------
 (require 'undo-tree)
 (global-undo-tree-mode)
-
-;; -----------------------------------------
-;; -- Projectile-global-mode configuration --
-;; -----------------------------------------
-(projectile-global-mode)
 
 ;; -----------------------------------------
 ;; -- Smex configuration --
@@ -340,7 +269,7 @@ your recently and most frequently used commands.")
 (add-to-list 'load-path  (concat my-init-directory "ess.d/lisp"))
 
 ;; CBD comment/uncomment (load "ess-site") in order to speed up when not using clojure or julia
-(load "ess-site")
+;;(load "ess-site")
 
 ;; OK TO LEAVE COMMENTED
 ;;(require 'ess-eldoc)
@@ -388,7 +317,6 @@ your recently and most frequently used commands.")
 ;;(setq cider-show-error-buffer 'only-in-repl)
 
 
-
 ;; -------------------------------------------
 ;; -- Clojure (Other) Mode Configuration    ---
 ;; -------------------------------------------
@@ -402,7 +330,6 @@ your recently and most frequently used commands.")
 (add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
 
 
-
 ;; Python
 ;; ---------------------------
 ;; -- Python configuration --
@@ -412,40 +339,18 @@ your recently and most frequently used commands.")
       python-shell-interpreter-args "-i --simple-prompt")
 
 
-
-;; ---------------------------
-;; -- Octave Mode configuration --
-;; ---------------------------
-;; (setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
-;; (add-hook 'octave-mode-hook
-;;           (lambda ()
-;;             ;; Help mode interfers with global C-h binding
-;;             (local-unset-key "\C-h" )
-;;             (local-set-key "\C-c\C-b" 'octave-send-buffer)
-;;             (local-set-key "\C-c\C-r" 'octave-send-region)
-;;             (local-set-key "\C-ch"   'octave-help)
-;;             (abbrev-mode 1)
-;;             (auto-fill-mode 1)
-;;             (if (eq window-system 'x)
-;;                 (font-lock-mode 1))))
-;;
-;; (add-hook 'inferior-octave-mode-hook
-;;           (lambda ()
-;;             ;; Help mode interfers with global C-h binding
-;;             (local-unset-key "\C-h" )
-;;             (local-set-key "\C-ch"   'octave-help)))
-
-
 (message "Let's get started...")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+
  '(package-selected-packages
    (quote
-    (json-mode use-package aggressive-indent smartparens cider undo-tree stylus-mode smooth-scrolling smex rainbow-delimiters projectile pixie-mode paredit-everywhere nodejs-repl magit js3-mode jade-mode ido-ubiquitous idle-highlight-mode helm flx-ido find-file-in-project company better-defaults auto-complete atom-dark-theme arduino-mode ample-zen-theme ample-theme))))
+    (counsel-dash json-mode use-package aggressive-indent smartparens cider undo-tree stylus-mode smooth-scrolling smex rainbow-delimiters projectile pixie-mode paredit-everywhere nodejs-repl magit js3-mode jade-mode ido-ubiquitous idle-highlight-mode helm flx-ido find-file-in-project company better-defaults auto-complete atom-dark-theme arduino-mode ample-zen-theme ample-theme))))
 (custom-set-faces
+ 
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
