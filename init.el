@@ -61,9 +61,7 @@
                       ;; From CBD
                       ;; help and ido are choices: Though both are loaded, only one should configured.
                       helm
-                      ;;ido-ubiquitous
-                      ido
-                      flx-ido
+		      flx-ido
                       use-package
                       ;; auto-complete and company are choices: Though both are loaded, only one should configured.
                       auto-complete
@@ -147,9 +145,9 @@
 ;; ---------------------------
 ;; -- ido configuration --
 ;; ---------------------------
-(ido-mode t)
-;;(ido-ubiquitous-mode t)
-
+;; (ido-mode t)
+;; (setq ido-everywhere t)
+;; (setq ido-enable-flex-matching t)
 
 ;; ---------------------------
 ;; -- helm configuration -- 
@@ -158,9 +156,12 @@
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
-;;
-;; (require 'helm-config)
-;; (helm-mode 1)
+
+(require 'helm-config)
+(helm-mode t)
+(global-set-key (kbd "M-x") 'helm-M-x)
+;; Choose this or "M-x" for 'smex
+
 
 ;; ---------------------------
 ;; -- company configuration --
@@ -274,10 +275,11 @@
 ;; -- Smex configuration --
 ;; -----------------------------------------
 (autoload 'smex "smex"
-    "Smex is a M-x enhancement for Emacs, it provides a convenient interface to
+  "Smex is a M-x enhancement for Emacs, it provides a convenient interface to
 your recently and most frequently used commands.")
 
-(global-set-key (kbd "M-x") 'smex)
+;; Choose this or "M-x" for 'helm
+;; (global-set-key (kbd "M-x") 'smex)
 
 
 ;; -----------------------------------------
