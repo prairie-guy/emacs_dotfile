@@ -38,3 +38,27 @@ My personal emacs configuration, tuned for my needs. One of which is to be able 
 ### Get the most current version of emacs for OSX with brew:
 * brew install emacs --HEAD --use-git-head --cocoa --with-gnutls
 
+## Helm (vs. IDO) is the major framework used. Important keys and concepts for helm:
+* For help: http://tuhdo.github.io/helm-intro.html
+* Buffer matching vs. tab based
+* "M-x" has been remapped to M-x-helm
+* "C-x b" helm-mini, showing buffers
+* "C-x C-f" helm-find-files
+* "M-y" helm yank
+* "C-z" zap to char (Not helm, but useful)
+* "M-x helm" see other helm commands
+* "C-c h" is the primary helm command-key
+* "C-c h i " helm-semantic-or-imenu, showing functions and variables
+* "C-c h l" helm-locate, searching file sytem for specific file
+* "C-c h o" helm-occur, list of matches in the current buffer to jump back and forth
+* "C-c h a" helm-apropos
+* "C-c h h g" helm-info-gnus
+* "C-c h h i" helm-info-at-point
+* "C-c h h e" helm-info-emacs
+
+* "C-C h e" opens etag buffer (To use etags, execute `etags *.py /project-root-dir`)
+* "M-." opens the definition (based upon etag)
+
+
+
+

@@ -72,26 +72,13 @@
 ;; ---------------------
 ;; -- Global Settings --
 ;; ---------------------
-(menu-bar-mode -1)                           ; Disable menu bar at top of screen
+(menu-bar-mode -1)                                     ; Disable menu bar at top of screen
 (setq column-number-mode t)
 (setq inhibit-startup-message t)
-(setq ns-alternate-modifier 'meta)           ; Set Mac's Fn key to Hyper
-(setq ns-command-modifier 'super)            ; Set Mac's Fn key to Hyper  ;; Not working on OSx 10.9 , but reminder to find a fix
-
-
-(defvar real-keyboard-keys
-  '(("M-<up>"        . "\M-[1;3A")
-    ("M-<down>"      . "\M-[1;3B")
-    ("M-<right>"     . "\M-[1;3C")
-    ("M-<left>"      . "\M-[1;3D")
-    ("C-<return>"    . "\C-j")
-    ("C-<delete>"    . "\M-[3;5~")
-    ("C-<up>"        . "\M-[1;5A")
-    ("C-<down>"      . "\M-[1;5B")
-    ("C-<right>"     . "\M-[1;5C")
-    ("C-<left>"      . "\M-[1;5D"))
-  "An assoc list of pretty key strings
-and their terminal equivalents.")
+(setq ns-alternate-modifier 'meta)                     ; Set Mac's Fn key to Hyper
+(setq ns-command-modifier 'super)                      ; Set Mac's Fn key to Hyper  ;; Not working on OSx 10.9 , but reminder to find a fix
+(defun next5()(interactive) (next-line 5))             ; Quicker next
+(defun prev5()(interactive) (previous-line 5))         ; Quicker previous
 
 
 ;; --------------------------
@@ -145,12 +132,14 @@ and their terminal equivalents.")
 (define-key helm-map (kbd "C-z")  'helm-select-action)             ; List actions using C-z
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)                  ; Uber version of kill-ring
 (global-set-key (kbd "C-x b") 'helm-mini)                          ; Helm version of searching buffer
+(global-set-key (kbd "C-c h o") 'helm-occur)                       ; Helm version of occur
 (global-set-key (kbd "C-x C-f") 'helm-find-files)                  ; Helm file navigation
 (setq helm-M-x-fuzzy-match t)                                      ; Fuzzy matching for helm-M-x
 (setq helm-buffers-fuzzy-matching t                                ; Fuzzy matching for buffers
       helm-recentf-fuzzy-match    t
       helm-semantic-fuzzy-match   t
-      helm-imenu-fuzzy-match      t)
+      helm-imenu-fuzzy-match      t
+      helm-apropos-fuzzy-match    t)
 
 (when (executable-find "curl")
   (setq helm-google-suggest-use-curl-p t))
@@ -197,13 +186,8 @@ and their terminal equivalents.")
 ;; -----------------------------------------
 ;; -- Misc configuration --
 ;; -----------------------------------------
-
-;; Change default spell-checking program
-(setq-default ispell-program-name "aspell")
-
-;; Set my email address
-;; Setup mail-transport agent to accept smtp traffic, i.e., postfix on os x
-(setq user-mail-address "cdaniels@nandor.net")
+(setq-default ispell-program-name "aspell")         ; Change default spell-checking program
+(setq user-mail-address "cdaniels@nandor.net")      ; Set my email address
 
 ;; -----------------------------------------
 ;; -- Themes --
@@ -225,11 +209,11 @@ and their terminal equivalents.")
 ;; CBD comment/uncomment (load "ess-site") in order to speed up when not using clojure or julia
 ;;(load "ess-site")
 
-;; OK TO LEAVE COMMENTED
-;;(require 'ess-eldoc)
+
+;;(require 'ess-eldoc)                              ; OK TO LEAVE COMMENTED
 (setq-default inferior-R-args "--no-restore-history --no-save ")
 (setq ess-default-style 'RRR)
-(setq ess-tab-complete-in-script t)                 ;; Autocomplete in .R files M-tab
+(setq ess-tab-complete-in-script t)                 ; Autocomplete in .R files M-tab
 (setq ess-first-tab-never-complete t)
 (setq ess-eldoc-show-on-symbol t)
 (setq ess-eldoc-abbreviation-style 'strong)
@@ -265,8 +249,8 @@ and their terminal equivalents.")
 ;; -------------------------------------------
 ;; -- Clojure(cider) Mode Configuration    ---
 ;; -------------------------------------------
-(add-hook 'cider-mode-hook #'eldoc-mode)      ;; Enable eldoc in Clojure buffers
-(setq nrepl-hide-special-buffers t)           ;; Hide the *nrepl-connection* and *nrepl-server* buffers from appearing in some buffer switching commands
+(add-hook 'cider-mode-hook #'eldoc-mode)      ; Enable eldoc in Clojure buffers
+(setq nrepl-hide-special-buffers t)           ; Hide the *nrepl-connection* and *nrepl-server* buffers from appearing in some buffer switching commands
 (setq cider-show-error-buffer nil)
 ;;(setq cider-show-error-buffer 'only-in-repl)
 
