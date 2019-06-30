@@ -57,6 +57,7 @@ My personal emacs configuration, tuned for my needs. One of which is to be able 
 * `"C-c h h e"` helm-info-emacs
 * `"C-C h e"` opens etag buffer (To use etags, execute `etags *.py /project-root-dir`)
 * `"M-." `opens the definition (based upon etag)
+* `"C o"` jumps out of Emacs Command History Mode (entered with `"M-x"` and showing history of prior commands )
 
 
 
