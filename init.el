@@ -86,16 +86,18 @@
 ;; --------------------------
 
 (fset 'align-equals "\C-[xalign-regex\C-m=\C-m")
-(global-set-key "\M-?" 'help)                          ; Help-Key
-(global-set-key "\M-=" 'align-equals)                  ; Aligment-Key
-(global-set-key "\C-c;" 'comment-or-uncomment-region)  ; Commment/Uncomment-Key
 (global-set-key "\M-n" 'next5)                         ; Next-five-Key
 (global-set-key "\M-p" 'prev5)                         ; Previous-five-Key
-(global-set-key "\M-o" 'other-window)                  ; Other-window-Key
-(global-set-key "\M-i" 'back-window)                   ; Prior-window-Key
+(global-set-key "\M-?" 'help)                          ; Help-Key
+(global-set-key "\C-?" 'help-command)                  ; Help-Command
 (global-set-key "\C-z" 'zap-to-char)                   ; Zap-point-to-char-Key
 (global-set-key "\M-d" 'delete-word)                   ; Forward-delete-word-key
 (global-set-key "\M-h" 'backward-delete-word)          ; Bacward-delete-word-key
+(global-set-key "\C-h" 'delete-backward-char)
+(global-set-key "\M-=" 'align-equals)                  ; Aligment-Key
+(global-set-key "\C-c;"'comment-or-uncomment-region)   ; Commment/Uncomment-Key
+(global-set-key "\M-o" 'other-window)                  ; Other-window-Key
+(global-set-key "\M-i" 'back-window)                   ; Prior-window-Key
 
 
 ;; ---------------------------
