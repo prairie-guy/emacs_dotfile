@@ -1,6 +1,6 @@
 ;; ------------------------------------------
-;; -- Allow for different startup directory  --
-;; -- Startup with: emacs -q -l some-file
+;; -- Allow for different startup directory --
+;; -- Startup with: emacs -q -l some-file   --
 ;; ------------------------------------------
 ;; PLEASE REVIEW IF CLOJURE OR JULIA ARE NOT WORKING
 ;; CBD:: comment/uncomment (load "ess-site") in order to speed up when not using clojure or julia
@@ -73,6 +73,7 @@
 ;; -- Global Settings --
 ;; ---------------------
 (menu-bar-mode -1)                                     ; Disable menu bar at top of screen
+(normal-erase-is-backspace-mode 0)                     ; Delete key should delete backwards
 (setq column-number-mode t)
 (setq inhibit-startup-message t)
 (setq ns-alternate-modifier 'meta)                     ; Set Mac's Fn key to Hyper
