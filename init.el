@@ -1,4 +1,4 @@
-;; ------------------------------------------
+;; -----------------------------------------
 ;; -- Allow for different startup directory --
 ;; -- Startup with: emacs -q -l some-file   --
 ;; ------------------------------------------
@@ -73,14 +73,13 @@
 ;; -- Global Settings --
 ;; ---------------------
 (menu-bar-mode -1)                                     ; Disable menu bar at top of screen
-(normal-erase-is-backspace-mode 0)                     ; Delete key should delete backwards
+					;(normal-erase-is-backspace-mode 0)                     ; Delete key should delete backwards
 (setq column-number-mode t)
 (setq inhibit-startup-message t)
 (setq ns-alternate-modifier 'meta)                     ; Set Mac's Fn key to Hyper
 (setq ns-command-modifier 'super)                      ; Set Mac's Fn key to Hyper  ;; Not working on OSx 10.9 , but reminder to find a fix
 (defun next5()(interactive) (next-line 5))             ; Quicker next
 (defun prev5()(interactive) (previous-line 5))         ; Quicker previous
-
 
 ;; --------------------------
 ;; -- Global Key Bindings  --
@@ -92,14 +91,14 @@
 (global-set-key "\M-?" 'help)                          ; Help-Key
 (global-set-key "\C-?" 'help-command)                  ; Help-Command
 (global-set-key "\C-z" 'zap-to-char)                   ; Zap-point-to-char-Key
-(global-set-key "\M-d" 'delete-word)                   ; Forward-delete-word-key
 (global-set-key "\M-h" 'backward-delete-word)          ; Bacward-delete-word-key
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\M-=" 'align-equals)                  ; Aligment-Key
 (global-set-key "\C-c;"'comment-or-uncomment-region)   ; Commment/Uncomment-Key
 (global-set-key "\M-o" 'other-window)                  ; Other-window-Key
 (global-set-key "\M-i" 'back-window)                   ; Prior-window-Key
-
+;;(global-set-key "\C-d" 'delete-backward-char)
+(global-set-key (kbd "DEL") 'delete-backward-char)     ; kbd required to fix DEL key
 
 ;; ---------------------------
 ;; -- uniquify --
@@ -156,6 +155,7 @@
 (setq helm-autoresize-max-height 0)
 (setq helm-autoresize-min-height 20)
 (helm-autoresize-mode 1)
+
 
 ;; ---------------------------
 ;; -- company configuration --
