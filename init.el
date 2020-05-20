@@ -100,6 +100,9 @@
 ;;(global-set-key "\C-d" 'delete-backward-char)
 (global-set-key (kbd "DEL") 'delete-backward-char)     ; kbd required to fix DEL key
 
+(require 'epa-file)
+(epa-file-enable)
+
 ;; ---------------------------
 ;; -- uniquify --
 ;; ---------------------------
@@ -211,6 +214,7 @@
 
 ;; CBD comment/uncomment (load "ess-site") in order to speed up when not using clojure or julia
 ;;(load "ess-site")
+(load "ess-site")
 
 
 ;;(require 'ess-eldoc)                              ; OK TO LEAVE COMMENTED
@@ -279,7 +283,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (simpleclip use-package undo-tree sws-mode smooth-scrolling smex smartparens rainbow-delimiters nodejs-repl magit julia-mode js3-mode jade-mode helm flx-ido elpy cider atom-dark-theme ample-zen-theme ample-theme aggressive-indent))))
+    (haskell-mode simpleclip use-package undo-tree sws-mode smooth-scrolling smex smartparens rainbow-delimiters nodejs-repl magit julia-mode js3-mode jade-mode helm flx-ido elpy cider atom-dark-theme ample-zen-theme ample-theme aggressive-indent))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
