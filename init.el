@@ -192,8 +192,9 @@
 ;; -----------------------------------------
 ;; -- Misc configuration --
 ;; -----------------------------------------
-(setq-default ispell-program-name "aspell")         ; Change default spell-checking program
-(setq user-mail-address "cdaniels@nandor.net")      ; Set my email address
+(setq-default ispell-program-name "aspell")           ; Change default spell-checking program
+;;(setq-default ispell-program-name "hunspell")       ; package-install hunspell; package-install hunspell_en
+(setq user-mail-address "cdaniels@nandor.net")        ; Set my email address
 
 ;; -----------------------------------------
 ;; -- Themes --
@@ -283,7 +284,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (haskell-mode simpleclip use-package undo-tree sws-mode smooth-scrolling smex smartparens rainbow-delimiters nodejs-repl magit julia-mode js3-mode jade-mode helm flx-ido elpy cider atom-dark-theme ample-zen-theme ample-theme aggressive-indent))))
+    (ac-ispell helm-ispell haskell-mode simpleclip use-package undo-tree sws-mode smooth-scrolling smex smartparens rainbow-delimiters nodejs-repl magit julia-mode js3-mode jade-mode helm flx-ido elpy cider atom-dark-theme ample-zen-theme ample-theme aggressive-indent))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
