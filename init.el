@@ -6,6 +6,8 @@
 ;; CBD:: comment/uncomment (load "ess-site") in order to speed up when not using clojure or julia
 ;; Search for CBD
 
+(setenv "TERM" "linux") ;; Work around for Blink to use ssh
+;;(setenv "TERM" "dumb") ;; Work around for Blink to use ssh
 
 ;; Customize .emacs.d and emacs -l to load an alternative directory
 (setq args command-line-args)
@@ -34,7 +36,7 @@
 ;; ---------------------
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
@@ -54,9 +56,10 @@
                       undo-tree
 		      smartparens
                       rainbow-delimiters
-		      cider                  ; clojure be sure to include the following in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
+		      ;;		      cider                  ; breaks-queue not found; Include in profiles.clj: {:user {:plugins [[cider/cider-nrepl "0.8.2"]]}}
 		      aggressive-indent
 		      julia-mode             ; Julia
+		      julia-repl
 		      ample-zen-theme        ; Several themes
                       ample-theme
                       atom-dark-theme
@@ -207,15 +210,13 @@
 (enable-theme 'ample-zen)
 
 ;; -------------------------------------------
-;; -- Ess Mode Configuration (R and Julia)---
+;; -- Ess Mode Configuration (R)---
 ;; -------------------------------------------
 ;; Ess is not part of package management system, so need to run 'setup.sh' in order to install ess.d.
 (add-to-list 'load-path  (concat my-init-directory "ess.d/lisp"))
 
 ;; CBD comment/uncomment (load "ess-site") in order to speed up when not using clojure or julia
 ;;(load "ess-site")
-(load "ess-site")
-
 
 ;;(require 'ess-eldoc)                              ; OK TO LEAVE COMMENTED
 (setq-default inferior-R-args "--no-restore-history --no-save ")
@@ -224,6 +225,7 @@
 (setq ess-first-tab-never-complete t)
 (setq ess-eldoc-show-on-symbol t)
 (setq ess-eldoc-abbreviation-style 'strong)
+
 
 (defun run-R()
   (interactive)
@@ -234,23 +236,33 @@
         (setq w1name (buffer-name))
         (setq w2 (split-window w1 nil t))
         (R)
-;;        (set-window-buffer w1 "*R*")    ; R on the left
-;;        (set-window-buffer w2 w1name))))
+	;;        (set-window-buffer w1 "*R*")    ; R on the left
+	;;        (set-window-buffer w2 w1name))))
         (set-window-buffer w2 "*R*")
         (set-window-buffer w1 w1name))))
 
+;; -------------------------------------------
+;; -- Julia Mode Configuration ---
+;; -------------------------------------------
+
+(require 'julia-mode)
+(require 'julia-repl)
+(add-hook 'julia-mode-hook 'julia-repl-mode)
+(set-language-environment "UTF-8")
+
+
 ;;(setq inferior-julia-program-name "/usr/local/bin/julia")
-(defun run-julia()
-  (interactive)
-  (if (not (member "*julia*" (mapcar (function buffer-name) (buffer-list))))
-      (progn
-        (delete-other-windows)
-        (setq w1 (selected-window))
-        (setq w1name (buffer-name))
-        (setq w2 (split-window w1 nil t))
-        (julia)
-        (set-window-buffer w2 "*julia*")
-        (set-window-buffer w1 w1name))))
+;; (defun run-julia()
+;;   (interactive)
+;;   (if (not (member "*julia*" (mapcar (function buffer-name) (buffer-list))))
+;;       (progn
+;;         (delete-other-windows)
+;;         (setq w1 (selected-window))
+;;         (setq w1name (buffer-name))
+;;         (setq w2 (split-window w1 nil t))
+;;         (julia)
+;;         (set-window-buffer w2 "*julia*")
+;;         (set-window-buffer w1 w1name))))
 
 
 ;; -------------------------------------------
@@ -283,7 +295,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (haskell-mode simpleclip use-package undo-tree sws-mode smooth-scrolling smex smartparens rainbow-delimiters nodejs-repl magit julia-mode js3-mode jade-mode helm flx-ido elpy cider atom-dark-theme ample-zen-theme ample-theme aggressive-indent))))
+    (xterm-color haskell-mode simpleclip use-package undo-tree sws-mode smooth-scrolling smex smartparens rainbow-delimiters nodejs-repl magit julia-mode js3-mode jade-mode helm flx-ido elpy cider atom-dark-theme ample-zen-theme ample-theme aggressive-indent))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
